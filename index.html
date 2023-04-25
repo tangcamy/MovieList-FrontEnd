@@ -1,0 +1,149 @@
+<!-- cmd+k+c註解 ，開頭打html就會跑出html:5的格式 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap css放在head前面 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Ｍovie List</title>
+</head>
+
+<body>
+  <!-- 1// Navbar ： 標籤列（依照範本將需要的留下不需要的刪除） -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Moive List</a>
+      <!-- aria等資訊為無障礙規範使用（請勿任意刪除），主要是增加網站的可用信 -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./favorite.html">Favorite</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 2// Search Bar ：form/Layout/inline forms (依照範本將需要的留下不需要的刪除，留下input & butoon） -->
+  <!-- Bootstrp 主要協助我們helper-class ，但我們需要自行建立 div-container // add margin-top-->
+  <div class="container mt-5">
+    <!-- 建立div/row （需由owner自行切割div的需求）：上面放search bar的部分 -->
+    <div class="row">
+      <form class="form-inline col-sm-11" id="search-form">
+        <div class='input-group'>
+          <label class="sr-only" for="search-input">Search Keyword</label>
+          <input type="text" class="form-control mb-2 mr-sm-2" id="search-input" placeholder="Keyword..." />
+          <button type="submit" class="btn btn-primary mb-2" id="search-submit-button">
+            Search
+          </button>
+        </div>
+      </form>
+
+      <div class="col-sm-1" id="change-form-mode">
+        <i class="fa fa-th mr-sm-2" id="card-mode-button" aria-hidden="true"></i>
+        <i class="fa fa-bars" id="list-mode-button" aria-hidden="true"></i>
+      </div>
+    </div>
+
+
+    <!-- Render Movie List -->
+    <!-- 建立div/row/data-panel ：擺放電影清單 -->
+    <div class="row" id="data-panel">
+      <!-- 設定大小 col-sm-3 :相當於等等之後要貼的car範本中的 style="width: 18rem-->
+      <div class="col-sm-3">
+        <!-- 設定每一排之間的間隔大小 -->
+        <div class="mb-2">
+          <!-- 卡片格式貼近來 : 上面為影像+tilte名稱 ; 下面為footer資料-->
+          <div class="card mt-2">
+            <img
+              src="https://raw.githubusercontent.com/ALPHACamp/movie-list-api/master/public/posters/80PWnSTkygi3QWWmJ3hrAwqvLnO.jpg"
+              class="card-img-top" alt="Movie Poster">
+            <div class="card-body">
+              <h5 class="card-title">Movie title</h5>
+            </div>
+
+            <!-- footer: //car表格中置底，並依需求加入按鈕-->
+            <div class="card-footer">
+              <!-- Button trigger modal : 點選More之後會跳出視窗提供電影細節，此為modal type-->
+              <button type="button" class="btn btn-primary btn-show-movie" data-bs-toggle="modal"
+                data-bs-target="#movie-Modal">More</button>
+              <!-- class中的 btn-show-movie，為javascript綁定事件使用的，不能只用id，id只有一個 ，但這個按鈕是一部電影底下就會有一個 -->
+              <button type="button" class="btn btn-info btn-show-favorite">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--3//Pagination:分頁  -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center" id="pagination"><!--加入helper class：justify-content-center -->
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+    </ul>
+  </nav>
+
+  <!-- 互動視窗模組物件（放在分頁流程下方）// Modal的內容：此範例為More button點選後跳出，因此會在button有撰寫trigger的語法 -->
+  <!-- button中的data-bs-target名稱為modal id  -->
+  <div class="modal fade" id="movie-Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- //Modal Optional sizes中可以調整大小-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="movie-modal-title"> Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- modal 內容切版 -->
+        <div class="modal-body" id="movie-modal-body">
+          <div class="row">
+            <div class="col-sm-8" id="movie-modal-image">
+              <img
+                src="https://raw.githubusercontent.com/ALPHACamp/movie-list-api/master/public/posters/80PWnSTkygi3QWWmJ3hrAwqvLnO.jpg"
+                alt="movie-poster" class="img-fuid">
+            </div>
+            <div class="col-sm-4">
+              <p><em id="movie-modal-date">Release date :2022/06/09</em></p> <!-- em 這元素表示強調（斜線表示）-->
+              <p id="movie-modal-description">This is a movie.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 引用的網址放在這個下面 -->
+  <!-- axios放在這邊 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <!-- Bootstrap js放在body最後 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
+  <!-- javascript檔案 -->
+  <script src="/Users/camytang/Alpha-camp全端/學期2-2/vscode/movieList/index.js"></script>
+</body>
+
+</html>
